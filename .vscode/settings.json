@@ -1,0 +1,27 @@
+// For generic information about this document check:
+//https://code.visualstudio.com/docs/getstarted/settings#_settingsjson
+// DoxDocGen doc:
+// https://marketplace.visualstudio.com/items?itemName=cschlosser.doxdocgen#config-options
+// Code formatter:
+//
+{
+    "C_Cpp.enhancedColorization": "enabled",
+    "editor.formatOnSave": true,
+    "cSpell.words": [
+        "Gobilda",
+        "Robomaster"
+    ],
+    "doxdocgen.c.firstLine": "/**",
+    "doxdocgen.c.commentPrefix": " * ",
+    "doxdocgen.c.lastLine": " **/",
+    "doxdocgen.cpp.tparamTemplate": "@tparam {param} ",
+    "doxdocgen.file.fileOrder": [
+        "file",
+        "author",
+        "brief",
+        "date"
+    ],
+    "doxdocgen.generic.dateFormat": "YYYY-MM-DD",
+    "doxdocgen.generic.useGitUserName": true,
+    "doxdocgen.generic.useGitUserEmail": true
+}

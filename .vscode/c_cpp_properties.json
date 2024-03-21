@@ -1,0 +1,45 @@
+// This file was created using as reference: 
+// https://code.visualstudio.com/docs/cpp/c-cpp-properties-schema-reference
+{
+    "env": {
+        "owlPath": [
+            "${workspaceFolder}/Drivers/STM32F4xx_HAL_Driver/Inc",
+            "${workspaceFolder}/Drivers/STM32F4xx_HAL_Driver/Src",
+            "${workspaceFolder}/robotConfig/inc",
+            "${workspaceFolder}/robotConfig/src",
+            "${workspaceFolder}/middleware/inc",
+            "${workspaceFolder}/middleware/src"
+        ]
+    },
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "${owlPath}",
+                "${default}"
+            ],
+            "defines": [],
+            "macFrameworkPath": [
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
+            ],
+            "compilerPath": "/usr/bin/clang",
+            "intelliSenseMode": "gcc-arm",
+            "cStandard": "c99",
+            "cppStandard": "c++17"
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "${owlPath}",
+                "${default}"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/local/bin/gcc-arm-none-eabi",
+            "intelliSenseMode": "gcc-arm",
+            "cStandard": "c99",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4,
+    "enableConfigurationSquiggles": true
+}
