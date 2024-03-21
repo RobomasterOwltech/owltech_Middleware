@@ -1,12 +1,12 @@
 /*
- * MotorPI.h
+ * BaseClassCpp.hpp
  *
- *  Created on: May 24, 2023
- *      Author: josue
+ *  Created on: Mar 20, 2024
+ *      Author: @yourName
  */
 
-#ifndef BaseFileC
-#define BaseFileC
+#ifndef BaseClassCpp
+#define BaseClassCpp
 
 class BaseClassCpp
 {
@@ -17,13 +17,4 @@ public:
     ~BaseClassCpp();
 };
 
-BaseClassCpp::BaseClassCpp(/* args */)
-{
-}
-
-BaseClassCpp::~BaseClassCpp()
-{
-}
-
-
-#endif /* BaseFileC */
+#endif /* BaseClassCpp */
