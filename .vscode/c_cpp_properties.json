@@ -2,11 +2,8 @@
     "env": {
         "owlPath": [
             "${workspaceFolder}/Drivers/STM32F4xx_HAL_Driver/Inc",
-            "${workspaceFolder}/Drivers/STM32F4xx_HAL_Driver/Src",
             "${workspaceFolder}/robotConfig/inc",
-            "${workspaceFolder}/robotConfig/src",
             "${workspaceFolder}/middleware/inc",
-            "${workspaceFolder}/middleware/src",
             "${workspaceFolder}/Drivers/CMSIS/Core/Include",
             "${workspaceFolder}/Drivers/CMSIS/Core_A/Include",
             "${workspaceFolder}/Drivers/CMSIS/DAP/Firmware/Config",
