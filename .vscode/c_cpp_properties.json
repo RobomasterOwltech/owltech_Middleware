@@ -1,5 +1,3 @@
-// This file was created using as reference: 
-// https://code.visualstudio.com/docs/cpp/c-cpp-properties-schema-reference
 {
     "env": {
         "owlPath": [
@@ -8,7 +6,17 @@
             "${workspaceFolder}/robotConfig/inc",
             "${workspaceFolder}/robotConfig/src",
             "${workspaceFolder}/middleware/inc",
-            "${workspaceFolder}/middleware/src"
+            "${workspaceFolder}/middleware/src",
+            "${workspaceFolder}/Drivers/CMSIS/Core/Include",
+            "${workspaceFolder}/Drivers/CMSIS/Core_A/Include",
+            "${workspaceFolder}/Drivers/CMSIS/DAP/Firmware/Config",
+            "${workspaceFolder}/Drivers/CMSIS/DAP/Firmware/Include",
+            "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
+            "${workspaceFolder}/Drivers/CMSIS/DSP/Include",
+            "${workspaceFolder}/Drivers/CMSIS/Include",
+            "${workspaceFolder}/Drivers/CMSIS/NN/Include",
+            "${workspaceFolder}/Drivers/CMSIS/RTOS/Template",
+            "${workspaceFolder}/Drivers/CMSIS/RTOS2/Include"
         ]
     },
     "configurations": [

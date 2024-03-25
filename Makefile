@@ -36,13 +36,13 @@ BUILD_DIR = build
 ######################################
 # C sources
 C_SOURCES =  \
-robotConfig/Src/main.c \
-robotConfig/Src/gpio.c \
-robotConfig/Src/can.c \
-robotConfig/Src/i2c.c \
-robotConfig/Src/tim.c \
-robotConfig/Src/stm32f4xx_it.c \
-robotConfig/Src/stm32f4xx_hal_msp.c \
+robotConfig/src/main.c \
+robotConfig/src/gpio.c \
+robotConfig/src/can.c \
+robotConfig/src/i2c.c \
+robotConfig/src/tim.c \
+robotConfig/src/stm32f4xx_it.c \
+robotConfig/src/stm32f4xx_hal_msp.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c \
@@ -61,7 +61,7 @@ Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c_ex.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c \
-robotConfig/Src/system_stm32f4xx.c  
+robotConfig/src/system_stm32f4xx.c  
 
 # ASM sources
 ASM_SOURCES =  \
@@ -121,7 +121,7 @@ AS_INCLUDES =
 
 # C includes
 C_INCLUDES =  \
--IrobotConfig/Inc \
+-IrobotConfig/inc \
 -IDrivers/STM32F4xx_HAL_Driver/Inc \
 -IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F4xx/Include \

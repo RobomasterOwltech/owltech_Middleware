@@ -51,7 +51,7 @@ typedef struct {
     uint16_t duty_Cycle; 
     uint16_t prescaler;
     uint16_t pin_id;
-    HAL_TIMER timer;
+    TIM_HandleTypeDef timer;
 } PWM_MSG_STR;
 
 typedef struct {
@@ -64,9 +64,9 @@ typedef struct {
 
 typedef struct {
     uint16_t resolution; 
-    HAL_timer timer;
-    PIN Pin1;
-    PIN Pin2;
+    TIM_HandleTypeDef timer;
+    GPIO_InitTypeDef pin1;
+    GPIO_InitTypeDef pin2;
 
     uint16_t velocity;
     uint16_t last_tick;
