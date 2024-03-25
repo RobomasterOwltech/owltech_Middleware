@@ -63,8 +63,9 @@ typedef struct {
 
 
 typedef struct {
-    uint16_t resolution; 
+    uint8_t resolution; 
     TIM_HandleTypeDef timer;
+    // Do we really need these?
     GPIO_InitTypeDef pin1;
     GPIO_InitTypeDef pin2;
 
