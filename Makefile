@@ -36,13 +36,13 @@ BUILD_DIR = build
 ######################################
 # C sources
 C_SOURCES =  \
-Core/Src/main.c \
-Core/Src/gpio.c \
-Core/Src/can.c \
-Core/Src/i2c.c \
-Core/Src/tim.c \
-Core/Src/stm32f4xx_it.c \
-Core/Src/stm32f4xx_hal_msp.c \
+robotConfig/Src/main.c \
+robotConfig/Src/gpio.c \
+robotConfig/Src/can.c \
+robotConfig/Src/i2c.c \
+robotConfig/Src/tim.c \
+robotConfig/Src/stm32f4xx_it.c \
+robotConfig/Src/stm32f4xx_hal_msp.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c \
@@ -61,11 +61,11 @@ Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c_ex.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c \
-Core/Src/system_stm32f4xx.c  
+robotConfig/Src/system_stm32f4xx.c  
 
 # ASM sources
 ASM_SOURCES =  \
-startup_stm32f407xx.s
+robotConfig/startup_stm32f407xx.s
 
 # ASM sources
 ASMM_SOURCES = 
@@ -121,7 +121,7 @@ AS_INCLUDES =
 
 # C includes
 C_INCLUDES =  \
--ICore/Inc \
+-IrobotConfig/Inc \
 -IDrivers/STM32F4xx_HAL_Driver/Inc \
 -IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
@@ -146,7 +146,7 @@ CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 # LDFLAGS
 #######################################
 # link script
-LDSCRIPT = STM32F407IEHx_FLASH.ld
+LDSCRIPT = robotConfig/STM32F407IEHx_FLASH.ld
 
 # libraries
 LIBS = -lc -lm -lnosys 
