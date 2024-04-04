@@ -41,4 +41,4 @@ If you would like to learn more about the used tools and information, then check
 * [Quick intro to Makefiles](https://www.youtube.com/watch?v=aw9wHbFTnAQ) (Video)
 * [GNU Make manual](https://www.gnu.org/savannah-checkouts/gnu/make/manual/make.html#Reading)
 * The GNU Make [Book](https://learning.oreilly.com/library/view/the-gnu-make/9781457189883/). John Graham-Cumming. No Starch Press
- 
+* [Example on using Eigen](https://youtu.be/RgKreY1HK_8?si=aPSwUOyWYGdj3Nyl&t=284)
