@@ -43,6 +43,8 @@ robotConfig/src/i2c.c \
 robotConfig/src/tim.c \
 robotConfig/src/stm32f4xx_it.c \
 robotConfig/src/stm32f4xx_hal_msp.c \
+middleware/src/*.c \
+middleware/src/*.cpp \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c \
@@ -122,6 +124,7 @@ AS_INCLUDES =
 # C includes
 C_INCLUDES =  \
 -IrobotConfig/inc \
+-Imiddleware/inc \
 -IDrivers/STM32F4xx_HAL_Driver/Inc \
 -IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
