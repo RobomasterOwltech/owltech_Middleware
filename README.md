@@ -2,11 +2,27 @@
 
 This repo contains all the necessary low-levelish software to communicate the STM32 HAL and application code for FreeRTOS, controlling Robomaster and some Gobilda hardware. 
 
+## How to use this repo:
+
+1. Clone it /*TODO: Put link*/
+1. Download the submodules `git submodule init && git submodule update`
+
+### Compile:
+
+1. From the project folder call `make`
+
+
 ## NOTES:
 
+### C/C++ standard
 If you were to change the C/C++ standard used, remember to change it in the `IntelliSense`, `makefile`, and `c_cpp_propperties.json`
 
 For more [formatting options](https://clang.llvm.org/docs/ClangFormatStyleOptions.html) see the link.
+### Make for other STM32 boards:
+
+TODO: 
+* Change the configuration on `c_cpp_properties.json`
+* Change the defines on the `Makefile`
 
 ## Running for compile
 
