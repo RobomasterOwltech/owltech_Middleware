@@ -7,7 +7,7 @@
 BaseMotor::BaseMotor(TIM_HandleTypeDef* _timer, int minFreq, int maxFreq)
 {
 
-    BaseMotor_PWM.timer = *_timer;
+    BaseMotor_PWM.timer = _timer;
     BaseMotor_PWM.duty_Cycle = 0;
     BaseMotor_PWM.frequency = 1;
     BaseMotor_PWM.pin_id = 0;

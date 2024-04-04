@@ -11,7 +11,7 @@ private:
         uint16_t duty_Cycle;
         uint16_t prescaler;
         uint16_t pin_id;
-        TIM_HandleTypeDef timer;
+        TIM_HandleTypeDef* timer;
     } PWM_MSG_STR;
     PWM_MSG_STR BaseMotor_PWM;
 
