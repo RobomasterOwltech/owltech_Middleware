@@ -23,5 +23,6 @@
     ],
     "doxdocgen.generic.dateFormat": "YYYY-MM-DD",
     "doxdocgen.generic.useGitUserName": true,
-    "doxdocgen.generic.useGitUserEmail": true
+    "doxdocgen.generic.useGitUserEmail": true,
+    "cmake.configureOnOpen": false
 }

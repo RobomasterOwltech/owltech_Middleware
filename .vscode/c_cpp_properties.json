@@ -1,9 +1,11 @@
 {
     "env": {
         "owlPath": [
+            "${workspaceFolder}/**",
             "${workspaceFolder}/Drivers/STM32F4xx_HAL_Driver/Inc",
             "${workspaceFolder}/robotConfig/inc",
-            "${workspaceFolder}/middleware/inc",
+            "${workspaceFolder}/owltechMiddleware/inc",
+            "${workspaceFolder}/eigen/Eigen",
             "${workspaceFolder}/Drivers/CMSIS/Core/Include",
             "${workspaceFolder}/Drivers/CMSIS/Core_A/Include",
             "${workspaceFolder}/Drivers/CMSIS/DAP/Firmware/Config",
@@ -13,7 +15,23 @@
             "${workspaceFolder}/Drivers/CMSIS/Include",
             "${workspaceFolder}/Drivers/CMSIS/NN/Include",
             "${workspaceFolder}/Drivers/CMSIS/RTOS/Template",
-            "${workspaceFolder}/Drivers/CMSIS/RTOS2/Include"
+            "${workspaceFolder}/Drivers/CMSIS/RTOS2/Include",
+            "${workspaceFolder}/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc",
+            "${workspaceFolder}/Middlewares/ST/STM32_USB_Device_Library/Core/Inc",
+            "${workspaceFolder}/Middlewares/Third_Party/FreeRTOS/Source/include",
+            "${workspaceFolder}/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS",
+            "${workspaceFolder}/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F",
+            "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include",
+            "/opt/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/include",
+            "/opt/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/include-fixed",
+            "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/c++/10.3.1",
+            "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/machine",
+            "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/newlib-nano",
+            "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys"
+        ],
+        "owlDefines": [
+            "USE_HAL_DRIVER",
+            "STM32F407xx"
         ]
     },
     "configurations": [
@@ -21,9 +39,11 @@
             "name": "Mac",
             "includePath": [
                 "${owlPath}",
-                "${default}"
+                "${workspaceRoot}"
             ],
-            "defines": [],
+            "defines": [
+                "${owlDefines}"
+            ],
             "macFrameworkPath": [
                 "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
             ],
@@ -36,10 +56,12 @@
             "name": "Linux",
             "includePath": [
                 "${owlPath}",
-                "${default}"
+                "${workspaceRoot}"
             ],
-            "defines": [],
-            "compilerPath": "/usr/local/bin/gcc-arm-none-eabi",
+            "defines": [
+                "${owlDefines}"
+            ],
+            "compilerPath": "/usr/local/bin/gcc-arm-none-eabi/arm-none-eabi-g++",
             "intelliSenseMode": "gcc-arm",
             "cStandard": "c99",
             "cppStandard": "c++17"

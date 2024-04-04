@@ -38,9 +38,21 @@ BUILD_DIR = build
 C_SOURCES =  \
 robotConfig/src/main.c \
 robotConfig/src/gpio.c \
+robotConfig/src/adc.c \
 robotConfig/src/can.c \
+robotConfig/src/crc.c \
+robotConfig/src/dma.c \
+robotConfig/src/freertos.c \
 robotConfig/src/i2c.c \
+robotConfig/src/rng.c \
+robotConfig/src/rtc.c \
+robotConfig/src/spi.c \
 robotConfig/src/tim.c \
+robotConfig/src/usart.c \
+robotConfig/src/usb_device.c \
+robotConfig/src/usbd_conf.c \
+robotConfig/src/usbd_desc.c \
+robotConfig/src/usbd_cdc_if.c \
 robotConfig/src/stm32f4xx_it.c \
 robotConfig/src/stm32f4xx_hal_msp.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.c \
@@ -62,6 +74,20 @@ Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c_ex.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c \
 robotConfig/src/system_stm32f4xx.c  
+Middlewares/Third_Party/FreeRTOS/Source/croutine.c \
+Middlewares/Third_Party/FreeRTOS/Source/event_groups.c \
+Middlewares/Third_Party/FreeRTOS/Source/list.c \
+Middlewares/Third_Party/FreeRTOS/Source/queue.c \
+Middlewares/Third_Party/FreeRTOS/Source/stream_buffer.c \
+Middlewares/Third_Party/FreeRTOS/Source/tasks.c \
+Middlewares/Third_Party/FreeRTOS/Source/timers.c \
+Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c \
+Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c \
+Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c \
+Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c \
+Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c \
+Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c \
+Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c  
 
 # ASM sources
 ASM_SOURCES =  \
@@ -118,12 +144,18 @@ C_DEFS =  \
 
 # AS includes
 AS_INCLUDES = 
+-IrobotConfig/inc \
 
 # C includes
 C_INCLUDES =  \
 -IrobotConfig/inc \
 -IDrivers/STM32F4xx_HAL_Driver/Inc \
 -IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy \
+-IMiddlewares/Third_Party/FreeRTOS/Source/include \
+-IMiddlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS \
+-IMiddlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F \
+-IMiddlewares/ST/STM32_USB_Device_Library/Core/Inc \
+-IMiddlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc \
 -IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
 -IDrivers/CMSIS/Include
 
@@ -146,7 +178,7 @@ CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 # LDFLAGS
 #######################################
 # link script
-LDSCRIPT = robotConfig/STM32F407IEHx_FLASH.ld
+LDSCRIPT = robotConfig/STM32F407IGHx_FLASH.ld
 
 # libraries
 LIBS = -lc -lm -lnosys 
