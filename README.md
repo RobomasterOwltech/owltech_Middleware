@@ -4,7 +4,7 @@ This repo contains all the necessary low-levelish software to communicate the ST
 
 ## How to use this repo:
 
-1. Clone it /*TODO: Put link*/
+1. Clone it `git clone https://github.com/RobomasterOwltech/owltech_Middleware.git`
 1. Download the submodules `git submodule init && git submodule update`
 
 ### Compile:
@@ -15,7 +15,7 @@ This repo contains all the necessary low-levelish software to communicate the ST
 ## NOTES:
 
 ### C/C++ standard
-If you were to change the C/C++ standard used, remember to change it in the `IntelliSense`, `makefile`, and `c_cpp_propperties.json`
+If you were to change the C/C++ standard used, remember to change it in the `IntelliSense`, `makefile`, and `c_cpp_properties.json`
 
 For more [formatting options](https://clang.llvm.org/docs/ClangFormatStyleOptions.html) see the link.
 ### Make for other STM32 boards:
