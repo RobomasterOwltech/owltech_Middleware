@@ -13,7 +13,7 @@
 ######################################
 # target
 ######################################
-TARGET = PeriMake
+TARGET = owltech
 
 
 ######################################
@@ -55,6 +55,7 @@ robotConfig/src/usbd_desc.c \
 robotConfig/src/usbd_cdc_if.c \
 robotConfig/src/stm32f4xx_it.c \
 robotConfig/src/stm32f4xx_hal_msp.c \
+robotConfig/src/system_stm32f4xx.c  \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c \
@@ -73,7 +74,6 @@ Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c_ex.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c \
-robotConfig/src/system_stm32f4xx.c  
 Middlewares/Third_Party/FreeRTOS/Source/croutine.c \
 Middlewares/Third_Party/FreeRTOS/Source/event_groups.c \
 Middlewares/Third_Party/FreeRTOS/Source/list.c \
@@ -103,6 +103,7 @@ ASMM_SOURCES =
 PREFIX = arm-none-eabi-
 # The gcc compiler bin path can be either defined in make command via GCC_PATH variable (> make GCC_PATH=xxx)
 # either it can be added to the PATH environment variable.
+#	-x assembler-with-cpp -> Indicates that the project includes C/C++ giles
 ifdef GCC_PATH
 CC = $(GCC_PATH)/$(PREFIX)gcc
 AS = $(GCC_PATH)/$(PREFIX)gcc -x assembler-with-cpp
@@ -151,16 +152,20 @@ C_INCLUDES =  \
 -IrobotConfig/inc \
 -IDrivers/STM32F4xx_HAL_Driver/Inc \
 -IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy \
+-IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
+-IDrivers/CMSIS/Include \
 -IMiddlewares/Third_Party/FreeRTOS/Source/include \
 -IMiddlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS \
 -IMiddlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F \
 -IMiddlewares/ST/STM32_USB_Device_Library/Core/Inc \
--IMiddlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc \
--IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
--IDrivers/CMSIS/Include
+-IMiddlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc 
 
 
 # compile gcc flags
+# 	-Wall -> all warnings
+#	-fdata-sections -> Place each function or data item into its own section in the output file
+#	-ffunction-sections -> Optimization
+
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 
 CFLAGS += $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
@@ -181,6 +186,9 @@ CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 LDSCRIPT = robotConfig/STM32F407IGHx_FLASH.ld
 
 # libraries
+#	-lc Link the standard C library
+#	-lm Link the math library
+#	-lnosys This flag tells the linker to not to use any system-specific libraries or startup code
 LIBS = -lc -lm -lnosys 
 LIBDIR = 
 LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections

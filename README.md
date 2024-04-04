@@ -1,6 +1,10 @@
 # Owltech Middleware
 
-This repo contains all the necessary low-levelish software to communicate the STM32 HAL and application code for FreeRTOS, controlling Robomaster and some Gobilda hardware. 
+This repo contains all the necessary low level-ish software to communicate the STM32 HAL and application code for FreeRTOS, controlling Robomaster and some Gobilda hardware. 
+
+For now, all the dependencies are managed in the same repo. But the hope is to eventually separate them into different repos.
+For that, we need to figure out how to download the STM32 libraries into a Docker container, rather than trough CubeMX/CubeIDE.
+The same applies for the RTOS.
 
 ## How to use this repo:
 
