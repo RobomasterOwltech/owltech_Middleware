@@ -144,8 +144,8 @@ C_DEFS =  \
 
 
 # AS includes
-AS_INCLUDES = 
--IrobotConfig/inc \
+AS_INCLUDES = \
+-IrobotConfig/inc
 
 # C includes
 C_INCLUDES =  \
