@@ -43,8 +43,7 @@ robotConfig/src/i2c.c \
 robotConfig/src/tim.c \
 robotConfig/src/stm32f4xx_it.c \
 robotConfig/src/stm32f4xx_hal_msp.c \
-middleware/src/*.c \
-middleware/src/*.cpp \
+middleware/src/BNO055.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c \
@@ -80,7 +79,7 @@ PREFIX = arm-none-eabi-
 # The gcc compiler bin path can be either defined in make command via GCC_PATH variable (> make GCC_PATH=xxx)
 # either it can be added to the PATH environment variable.
 ifdef GCC_PATH
-CC = $(GCC_PATH)/$(PREFIX)gcc
+CC = $(GCC_PATH)/$(PREFIX)gcc -x c++
 AS = $(GCC_PATH)/$(PREFIX)gcc -x assembler-with-cpp
 CP = $(GCC_PATH)/$(PREFIX)objcopy
 SZ = $(GCC_PATH)/$(PREFIX)size
