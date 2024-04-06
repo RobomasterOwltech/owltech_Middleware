@@ -70,6 +70,7 @@ uint8_t bno055_writeData(uint8_t* txdata) {
     HAL_I2C_StateTypeDef state = HAL_I2C_GetState(i2c_dev);
     if (state == HAL_I2C_STATE_RESET) {
         printf("HAL_I2C_STATE_RESET\r\n");
+         HAL_UART_Transmit(&huart3,(uint8_t*) msg,sizeof(msg),10);
     } else if (state == HAL_I2C_STATE_READY) {
         printf("HAL_I2C_STATE_RESET\r\n");
     } else if (state == HAL_I2C_STATE_BUSY) {

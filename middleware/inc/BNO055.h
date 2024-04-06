@@ -2,9 +2,9 @@
 #define BNO055_H
 
 #include <stdint.h>
+#include <cstdio>
 #include "i2c.h"
 #include "main.h"
-
 
 #define BNO055_FUNC_RETURN uint8_t
 #define ERROR_DEFAULT           (uint8_t)(0)
