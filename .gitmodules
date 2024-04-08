@@ -2,3 +2,7 @@
 	path = eigen
 	url = https://gitlab.com/libeigen/eigen
 	branch = 3.4
+
+[submodule "usbHAL"]
+	path = Middlewares/ST/STM32_USB_Device_Library
+	url = https://github.com/STMicroelectronics/stm32_mw_usb_device.git
