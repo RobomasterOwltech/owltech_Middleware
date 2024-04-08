@@ -49,10 +49,8 @@ robotConfig/src/rtc.c \
 robotConfig/src/spi.c \
 robotConfig/src/tim.c \
 robotConfig/src/usart.c \
-robotConfig/src/usb_device.c \
-robotConfig/src/usbd_conf.c \
-robotConfig/src/usbd_desc.c \
-robotConfig/src/usbd_cdc_if.c \
+robotConfig/src/sysmem.c \
+robotConfig/src/syscalls.c \
 robotConfig/src/stm32f4xx_it.c \
 robotConfig/src/stm32f4xx_hal_msp.c \
 robotConfig/src/system_stm32f4xx.c  \
@@ -74,6 +72,17 @@ Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c_ex.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_crc.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rng.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc_ex.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c \
 Middlewares/Third_Party/FreeRTOS/Source/croutine.c \
 Middlewares/Third_Party/FreeRTOS/Source/event_groups.c \
 Middlewares/Third_Party/FreeRTOS/Source/list.c \
@@ -84,10 +93,15 @@ Middlewares/Third_Party/FreeRTOS/Source/timers.c \
 Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c \
 Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c \
 Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c \
-Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c \
-Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c \
-Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c \
-Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c  
+Middlewares/ST/stm32_mw_usb_device/Core/Src/usbd_core.c \
+Middlewares/ST/stm32_mw_usb_device/Core/Src/usbd_ctlreq.c \
+Middlewares/ST/stm32_mw_usb_device/Core/Src/usbd_ioreq.c \
+Middlewares/ST/stm32_mw_usb_device/Class/CDC/Src/usbd_cdc.c \
+robotConfig/src/usb_device.c \
+robotConfig/src/usbd_desc.c \
+robotConfig/src/usbd_cdc_if.c \
+robotConfig/src/usbd_conf.c
+
 
 # ASM sources
 ASM_SOURCES =  \
@@ -150,6 +164,7 @@ AS_INCLUDES = \
 # C includes
 C_INCLUDES =  \
 -IrobotConfig/inc \
+-Ieigen/Eigen \
 -IDrivers/STM32F4xx_HAL_Driver/Inc \
 -IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
@@ -157,8 +172,8 @@ C_INCLUDES =  \
 -IMiddlewares/Third_Party/FreeRTOS/Source/include \
 -IMiddlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS \
 -IMiddlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F \
--IMiddlewares/ST/STM32_USB_Device_Library/Core/Inc \
--IMiddlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc 
+-IMiddlewares/ST/stm32_mw_usb_device/Class/CDC/Inc \
+-IMiddlewares/ST/stm32_mw_usb_device/Core/Inc
 
 
 # compile gcc flags
@@ -189,7 +204,10 @@ LDSCRIPT = robotConfig/STM32F407IGHx_FLASH.ld
 #	-lc Link the standard C library
 #	-lm Link the math library
 #	-lnosys This flag tells the linker to not to use any system-specific libraries or startup code
-LIBS = -lc -lm -lnosys 
+#lstdc++
+#libstdc++
+#libm
+LIBS = -lc -lm -lnosys#-libstdc++ -libm -lnosys
 LIBDIR = 
 LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
