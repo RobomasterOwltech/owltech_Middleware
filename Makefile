@@ -54,6 +54,10 @@ robotConfig/src/syscalls.c \
 robotConfig/src/stm32f4xx_it.c \
 robotConfig/src/stm32f4xx_hal_msp.c \
 robotConfig/src/system_stm32f4xx.c  \
+robotConfig/src/usb_device.c \
+robotConfig/src/usbd_desc.c \
+robotConfig/src/usbd_cdc_if.c \
+robotConfig/src/usbd_conf.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c \
@@ -96,11 +100,7 @@ Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c \
 Middlewares/ST/stm32_mw_usb_device/Core/Src/usbd_core.c \
 Middlewares/ST/stm32_mw_usb_device/Core/Src/usbd_ctlreq.c \
 Middlewares/ST/stm32_mw_usb_device/Core/Src/usbd_ioreq.c \
-Middlewares/ST/stm32_mw_usb_device/Class/CDC/Src/usbd_cdc.c \
-robotConfig/src/usb_device.c \
-robotConfig/src/usbd_desc.c \
-robotConfig/src/usbd_cdc_if.c \
-robotConfig/src/usbd_conf.c
+Middlewares/ST/stm32_mw_usb_device/Class/CDC/Src/usbd_cdc.c
 
 
 # ASM sources
@@ -118,6 +118,7 @@ PREFIX = arm-none-eabi-
 # The gcc compiler bin path can be either defined in make command via GCC_PATH variable (> make GCC_PATH=xxx)
 # either it can be added to the PATH environment variable.
 #	-x assembler-with-cpp -> Indicates that the project includes C/C++ giles
+# 		also, enables our assembler to understand preprocesor tags
 ifdef GCC_PATH
 CC = $(GCC_PATH)/$(PREFIX)gcc
 AS = $(GCC_PATH)/$(PREFIX)gcc -x assembler-with-cpp
