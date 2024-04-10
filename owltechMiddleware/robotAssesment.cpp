@@ -16,14 +16,17 @@ using namespace Eigen;
 MatrixXd getJacobianMatrix(double r, double L, double d) {
     MatrixXd J(4, 3);
 
-    J << 1, 1, -(L + d), -1, 1, (L + d), -1, 1, (L + d), 1, 1, -(L + d);
+    J << 1, 1, -(L + d),
+         -1, 1, (L + d),
+         -1, 1, (L + d),
+         1, 1, -(L + d);
 
     return J;
 }
 
 /**
  * Computes the rotation matrix from the local coordinate 𝜗𝑅{𝐺𝑥𝑅𝑦𝑅} (mounted on the robot) to respect the
- * globalcoordinate 𝜗f
+ * global coordinate 𝜗f
  *
  * @param phi Angle of rotation of the encoder.
  * @return Computed transformation matrix.
@@ -31,7 +34,9 @@ MatrixXd getJacobianMatrix(double r, double L, double d) {
 MatrixXd getTransMatrix(double phi) {
     MatrixXd Q(3, 3);
 
-    Q << cos(phi), -sin(phi), 0, sin(phi), cos(phi), 0, 0, 0, 1;
+    Q << cos(phi), -sin(phi), 0,
+         sin(phi),  cos(phi), 0,
+                0,         0, 1;
 
     return Q;
 }
@@ -79,7 +84,7 @@ int main_robot() {
 
     // The relationship between the wheels angular velocities and the robot linear and angular velocities is determined
     // by:
-    //  𝜔 = JQ𝑇(𝜙)𝑞̇
+    // 𝜔 = JQ𝑇(𝜙)𝑞̇
     VectorXd angularVelocity(4);
     angularVelocity = 1 / r * J * velR * Q.transpose() * q;
 }
