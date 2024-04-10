@@ -13,8 +13,26 @@ The same applies for the RTOS.
 
 ### Compile:
 
-1. From the project folder call `make`
+1. From the project folder call make 
 
+        make
+    1. You might need to specify the compiler path, in which case use:
+        
+            make GCC_PATH=/path/2/compiler
+    
+    1. Alternatively, you can add it to your path, or set it as an environment variable. 
+1. If your build failed, then you can clean the `build` folder
+        
+        make clean
+
+### Add a file to be compiled 
+
+1. Save your changes to the file.
+1. Copy it's relative path.
+1. If it is a C, add it in the `C_SOURCES` variable from the `Makefile` 
+1. In case your file is referencing any library, make sure it is present in the `C_INCLUDES`
+
+arm-none-eabi-gcc -c -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DUSE_HAL_DRIVER -DSTM32F407xx -IrobotConfig/inc -Ieigen/Eigen -IDrivers/STM32F4xx_HAL_Driver/Inc -IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy -IDrivers/CMSIS/Device/ST/STM32F4xx/Include -IDrivers/CMSIS/Include -IMiddlewares/Third_Party/FreeRTOS/Source/include -IMiddlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -IMiddlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -IMiddlewares/ST/stm32_mw_usb_device/Class/CDC/Inc -IMiddlewares/ST/stm32_mw_usb_device/Core/Inc -IowltechMiddleware/inc -Og -Wall -fdata-sections -ffunction-sections -g -gdwarf-2 -MMD -MP -MF"build/main.d" -Wa,-a,-ad,-alms=build/main.lst robotConfig/src/main.cpp -o build/main.o
 
 ## NOTES:
 
@@ -28,7 +46,7 @@ TODO:
 * Change the configuration on `c_cpp_properties.json`
 * Change the defines on the `Makefile`
 
-## Running for compile
+### Running for compile
 
 Currently, we're using `make` as our compilation tool. 
 

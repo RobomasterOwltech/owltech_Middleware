@@ -102,6 +102,12 @@ Middlewares/ST/stm32_mw_usb_device/Core/Src/usbd_ctlreq.c \
 Middlewares/ST/stm32_mw_usb_device/Core/Src/usbd_ioreq.c \
 Middlewares/ST/stm32_mw_usb_device/Class/CDC/Src/usbd_cdc.c
 
+# CPP sources
+CPP_SOURCES = \
+owltechMiddleware/robotAssesment.cpp
+#robotConfig/src/main.c
+#owltechMiddleware/src/BaseMotor.cpp
+
 
 # ASM sources
 ASM_SOURCES =  \
@@ -120,11 +126,13 @@ PREFIX = arm-none-eabi-
 #	-x assembler-with-cpp -> Indicates that the project includes C/C++ giles
 # 		also, enables our assembler to understand preprocesor tags
 ifdef GCC_PATH
+CXX = $(GCC_PATH)/$(PREFIX)g++
 CC = $(GCC_PATH)/$(PREFIX)gcc
 AS = $(GCC_PATH)/$(PREFIX)gcc -x assembler-with-cpp
 CP = $(GCC_PATH)/$(PREFIX)objcopy
 SZ = $(GCC_PATH)/$(PREFIX)size
 else
+CXX = $(PREFIX)g++
 CC = $(PREFIX)gcc
 AS = $(PREFIX)gcc -x assembler-with-cpp
 CP = $(PREFIX)objcopy
@@ -165,7 +173,6 @@ AS_INCLUDES = \
 # C includes
 C_INCLUDES =  \
 -IrobotConfig/inc \
--Ieigen/Eigen \
 -IDrivers/STM32F4xx_HAL_Driver/Inc \
 -IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
@@ -176,6 +183,11 @@ C_INCLUDES =  \
 -IMiddlewares/ST/stm32_mw_usb_device/Class/CDC/Inc \
 -IMiddlewares/ST/stm32_mw_usb_device/Core/Inc
 
+# CPP includes
+CPP_INCLUDES = \
+$(C_INCLUDES) \
+-Ieigen \
+-IowltechMiddleware/inc
 
 # compile gcc flags
 # 	-Wall -> all warnings
@@ -184,15 +196,19 @@ C_INCLUDES =  \
 
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 
-CFLAGS += $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
+CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
+
+CXXFLAGS = $(MCU) $(C_DEFS) $(CPP_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 
 ifeq ($(DEBUG), 1)
 CFLAGS += -g -gdwarf-2
+CXXFLAGS += -g -gdwarf-2
 endif
 
 
 # Generate dependency information
 CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
+CXXFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 
 
 #######################################
@@ -205,10 +221,10 @@ LDSCRIPT = robotConfig/STM32F407IGHx_FLASH.ld
 #	-lc Link the standard C library
 #	-lm Link the math library
 #	-lnosys This flag tells the linker to not to use any system-specific libraries or startup code
-#lstdc++
-#libstdc++
-#libm
-LIBS = -lc -lm -lnosys#-libstdc++ -libm -lnosys
+# -lstdc++ \
+# 				-libstdc++ \
+# 				-libm
+LIBS = -lc -lm -lnosys -lstdc++
 LIBDIR = 
 LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
@@ -222,6 +238,9 @@ all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET
 # list of objects
 OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
 vpath %.c $(sort $(dir $(C_SOURCES)))
+OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(CPP_SOURCES:.cpp=.o)))
+vpath %.cpp $(sort $(dir $(CPP_SOURCES)))
+
 # list of ASM program objects
 OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
 vpath %.s $(sort $(dir $(ASM_SOURCES)))
@@ -230,6 +249,9 @@ vpath %.S $(sort $(dir $(ASMM_SOURCES)))
 
 $(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR) 
 	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
+
+$(BUILD_DIR)/%.o: %.cpp Makefile | $(BUILD_DIR) 
+	$(CXX) -c $(CXXFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.cpp=.lst)) $< -o $@
 
 $(BUILD_DIR)/%.o: %.s Makefile | $(BUILD_DIR)
 	$(AS) -c $(CFLAGS) $< -o $@

@@ -25,5 +25,10 @@
     "doxdocgen.generic.dateFormat": "YYYY-MM-DD",
     "doxdocgen.generic.useGitUserName": true,
     "doxdocgen.generic.useGitUserEmail": true,
-    "cmake.configureOnOpen": false
+    "cmake.configureOnOpen": false,
+    "files.associations": {
+        "main.C": "cpp",
+        "cmath": "cpp",
+        "iostream": "cpp"
+    }
 }
