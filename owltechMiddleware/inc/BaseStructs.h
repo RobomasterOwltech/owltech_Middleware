@@ -35,15 +35,6 @@ typedef union {
 
 // ===== Structs =====
 
-typedef struct {
-    // CAN ID for the receiver node
-    uint16_t id;
-    // Sets the action to be perfomed by the CAN node
-    uint16_t function_code; 
-    // Actual data content
-    char data_2_send;
-} CAN_MSG_STR;
-
 
 typedef struct {
     // Frequency of ...
