@@ -12,12 +12,14 @@ BaseMotor::BaseMotor(ControllerCAN* controller, OperationalRanges* attr, Operati
     this->contr.can = controller;
     this->attr = attr;
     this->dir = direction;
+    this->mode = mode;
 }
 
 BaseMotor::BaseMotor(ControllerPWM* controller, OperationalRanges* attr, OperationModes mode, uint8_t direction){
     this->contr.pwm = controller;
     this->attr = attr;
     this->dir = direction;
+    this->mode = mode;
 }
 
 void BaseMotor::actuate(){
