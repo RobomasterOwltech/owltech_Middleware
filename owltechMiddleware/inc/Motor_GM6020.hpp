@@ -1,18 +1,40 @@
+/*
+ * Motor GM6020.h
+ *
+ *  Created on: Apr 12, 2024
+ *      Author: @JorgePerC
+ * 
+ * To know more about the motor, check: 
+ * https://github.com/Telpochcalli/wiki/blob/main/PDFs/RM_MTR_GM6020-Brushless_User-Guide.pdf
+ */
+#ifndef MotorGM6020_HPP
+#define MotorGM6020_HPP
 
-typedef union {
-    float velocity;
-    float torque;
-    float position;
-} maxState;
+#include "BaseMotor.hpp"
 
-typedef union {
-    float velocity;
-    float torque;
-    float position;
-} minState;
+class Motor_GM6020: BaseMotor
+{
+private:
+    // ===== Operational ranges =====
+    /* 
+    * speed value unit: rpm
+    * send frequency: 1 KHz
+    */
+    // Resolution for position control:
+    static const uint8_t maxAngle = 8191;
+    // Resolution for velocity control:
+    static const int16_t maxVoltage = 30000;
+    static const int16_t minVoltage = -30000;
+    // Resolution for torque control:
+    static const float maxCurrent = 0.90;
+    static const float minCurrent = 2.45;
+    // Operational temperature (Celsius):
+    static const int16_t maxTemp = 55;
+    static const int16_t minTemp = 0;
 
+public:
+    Motor_GM6020(/* args */) {}
+    ~Motor_GM6020() {}
+};
 
-Mechanical angle: 0-8191
-speed value unit: rpm
-send frequency: 1 KHz
-Controllable Voltage: -30,000 | 0 | 30,000
+#endif

@@ -46,17 +46,9 @@ typedef struct {
 } PWM_MSG_STR;
 
 typedef struct {
-    CAN_MSG_STR msg; 
-    bool direction;
-    uint16_t actual_status_sign;
-} MOTOR_STR;
-
-
-
-typedef struct {
     uint8_t resolution; 
     TIM_HandleTypeDef timer;
-    // Do we really need these?
+    // TODO: Do we really need these?
     GPIO_InitTypeDef pin1;
     GPIO_InitTypeDef pin2;
 

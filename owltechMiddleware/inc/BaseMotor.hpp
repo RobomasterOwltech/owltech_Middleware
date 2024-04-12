@@ -4,26 +4,41 @@
  *  Created on: Apr 10, 2024
  *      Author: @JorgePerC
  */
-#ifndef BaseMotor
-#define BaseMotor
+#ifndef BaseMotor_HPP
+#define BaseMotor_HPP
 
-typedef union {
-    float maxVelocity;
-    float minVelocity;
-    float maxTorque;
-    float minTorque;
-    float maxPosition;
-    float minPosition;
-} operationRanges;
+#include "ControllerCAN.hpp"
+#include "ControllerPWM.hpp"
 
-#ifdef __cplusplus
- extern "C" {
-#endif
+class BaseMotor
+{
+private:
+    // TODO: Should we use Typedef?
+    struct operationalRanges {
+        float maxVelocity;
+        float minVelocity;
+        float maxTorque;
+        float minTorque;
+        float maxPosition;
+        float minPosition;
+    } ;
+
+    union controller
+    {
+        ControllerCAN canController;
+        ControllerPWM pwmController;
+    };
+
+    bool direction;
+    
+public:
+    BaseMotor(/* args */) {}
+    ~BaseMotor() {}
+};
 
 
-#ifdef __cplusplus
- }
-#endif 
+
+
 
 #endif /* BaseMotor */
 
