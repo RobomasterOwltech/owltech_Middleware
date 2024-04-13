@@ -1,7 +1,5 @@
 #include "stm32f4xx_hal.h"
 
-        
-
 class ControllerPWM {
    private:
     uint16_t clock_frequency;
@@ -12,11 +10,11 @@ class ControllerPWM {
     uint32_t channel;
 
     // Signal variables
-    int maximum_frequency;
-    int minimum_frequency;
+    int maximum_pulse;
+    int minimum_pulse;
 
     void set_frequency(uint16_t _frequency);
-    void set_prescaler(uint16_t _prescaler);
+    void set_prescaler();
 
    public:
     ControllerPWM(TIM_HandleTypeDef* _timer, int minFreq, int maxFreq);
