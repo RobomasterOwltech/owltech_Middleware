@@ -63,7 +63,7 @@ VectorXd getRotationMatrix(MatrixXd J, MatrixXd Q, double w) {
     return (Q * JJ_inv * J_transpose_w);
 }
 
-int main_robot() {
+void main_robot() {
     // Definición de variables
     float r = 0;      // radio de la llanta
     float L = 0;      // distancia entre las dos llantas

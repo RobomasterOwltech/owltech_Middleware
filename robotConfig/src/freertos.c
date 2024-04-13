@@ -143,7 +143,13 @@ __weak void test_task(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_G_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(LED_B_GPIO_Port, LED_B_Pin, GPIO_PIN_RESET);
+    // HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin);
+    // HAL_GPIO_TogglePin(LED_B_GPIO_Port, LED_B_Pin);
+    // HAL_GPIO_TogglePin(LED_G_GPIO_Port, LED_G_Pin);
+    osDelay(500);
   }
   /* USER CODE END test_task */
 }
