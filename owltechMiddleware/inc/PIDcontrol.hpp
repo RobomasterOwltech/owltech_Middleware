@@ -17,7 +17,7 @@ private:
     float Kd;
     float error1;
     float integral;
-    float (*func_ptr)() planta;
+    float(*plantaCallback)();
 
 public:
     PIDcontrol(float kp_, float ki_, float kd_, float setpoint_, float (*func_ptr)());
