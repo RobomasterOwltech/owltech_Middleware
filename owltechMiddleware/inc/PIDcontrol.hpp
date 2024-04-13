@@ -5,22 +5,22 @@
  *      Author: @carloseag1234
  */
 
-#ifndef PIDcontrol
-#define PIDcontrol
+#ifndef PIDcontrol_HPP
+#define PIDcontrol_HPP
 
 
-class PIDcontrol
-{
+class PIDcontrol {
 private:
-    float Setpoint;
+    float setPoint;
     float Kp;
-    float ki;
+    float Ki;
     float Kd;
-    float Error1;
-    float Integral;
+    float error1;
+    float integral;
+    float (*func_ptr)() planta;
 
 public:
-    PIDcontrol(float ,float , float , float ,auto );
+    PIDcontrol(float kp_, float ki_, float kd_, float setpoint_, float (*func_ptr)());
     float output(float);
     void setSetpoint(float);
     ~PIDcontrol();
