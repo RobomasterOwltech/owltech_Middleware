@@ -1,145 +1,112 @@
-
+/*
+ * ControllerCAN.cpp
+ *
+ *  Created on: April 12, 2024
+ *      Author: @JorgePerC
+ */
 #include "ControllerCAN.hpp"
 
+//Remember MSB: Most significant bit
 
-ControllerCAN::ControllerCAN(CAN_HandleTypeDef handler, int id){
-
-
+// This is a function that will be called in case something failed
+//TODO: make it global but put it somewhere usefull
+static void Error_Handler(void)
+{
+  while (1)
+  {
+  }
 }
 
+ControllerCAN::ControllerCAN(CAN_HandleTypeDef* handler, int id){
+  // Check there are no duplicate IDs
+  hcan = handler;
+  //Turn off interruption mode
+  // HAL_NVIC_DisableIRQ(CAN2_RX0_IRQn);
+  // HAL_NVIC_DisableIRQ(CAN1_RX0_IRQn);
 
+  // HAL_CAN_DeactivateNotification(hcan, );
+  // Check that the handler has been initialized
+  if (! HAL_CAN_GetState(hcan) != CAN_INITSTATUS_SUCCESS){
+    Error_Handler();
+  }
+  
+}
 
-// CAN
-FDCAN_RxHeaderTypeDef RxHeader;
-uint8_t RxData[8];
-FDCAN_TxHeaderTypeDef TxHeader; // manda posicion
-FDCAN_TxHeaderTypeDef TxHeader2; // manda distancia
+void ControllerCAN::updateMessage(uint8_t cntrlId, uint8_t motorId,  uint16_t value){
 
-//uint8_t TxData[8] = {'J', ' ', 'D', 'E', 'E', 'R', 'E', '.'};
-FDCAN_FilterTypeDef sFilterConfig;
+  // Set postion to be written
+  uint8_t writePos = motorId == CAN_ID_4 ? 6 : (motorId%4-1)*2;
 
-uint8_t TxData[4];
-FDCAN_HandleTypeDef hfdcan1;
-static void MX_FDCAN1_Init(void);
+  // Define canId message to send
+    // Specifies the standard identifier
+  TxHeader->StdId = cntrlId;
+    // Specifies the type of identifier for the message
+  TxHeader->IDE = CAN_ID_STD;
+    // Specifies the length of the frame that will be transmitted
+  TxHeader->DLC = RM_DLC;
+    // Specifies the type of frame for the message
+  TxHeader->RTR = CAN_RTR_DATA;
+    // To avoid overriding the last values
+  TxHeader->TransmitGlobalTime = DISABLE;
 
+  TxData[writePos] = value;
+}
 
-// CAN TRANMITION FUNCTIONS
-
-void transmitDistance(){
-	HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_14);
-
-	TxData[0] = currentDistance;
-	TxData[1] = 0;
-	TxData[2] = 0;
-
-
-    if (HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &TxHeader, TxData) != HAL_OK)
-    {
+void ControllerCAN::sendMessage(){
+  
+    // Prior to sending the message, we must 
+    // check that all prev messages have been sent
+    // we do so wit the tx boxes
+    uint32_t selectedMailBox = NULL;
+    // Monitor the Tx mailboxes availability until at least one Tx mailbox is free
+    if ((hcan->Instance->TSR & CAN_TSR_TME0) != 0U) {
+      selectedMailBox = CAN_TX_MAILBOX0;
+    } else if ((hcan->Instance->TSR & CAN_TSR_TME1) != 0U) {
+      selectedMailBox = CAN_TX_MAILBOX1;
+    } else if ((hcan->Instance->TSR & CAN_TSR_TME2) != 0U) {
+      selectedMailBox = CAN_TX_MAILBOX2;
+    }
+    if (selectedMailBox != NULL){
+      if (HAL_CAN_AddTxMessage(hcan, TxHeader, TxData, &selectedMailBox) != HAL_OK) {
         //uart_buf_len = sprintf(uart_buf, "Error");
         //HAL_UART_Transmit(&huart3, (uint8_t *)uart_buf, uart_buf_len, HAL_MAX_DELAY);
         Error_Handler();
+      } 
+    }   
+}
 
+/* This method is configured to read messages through polling.
+Note that the implementation is rather different from using interrupts
+Since these functions NEED TO BE CONSTANTLY CALLED. 
+On one side, this is easier, since will be using RTOS later
+*/
+void ControllerCAN::readMessagePolling(){
+  
+  // Check there's a message on the fifo 
+  if (HAL_CAN_GetRxFifoFillLevel(hcan, CAN_FILTER_FIFO0) > 1) {
 
+      /* Get RX message */
+    if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, RxHeader, RxData) != HAL_OK){
+      /* Reception Error */
+      Error_Handler();
     }
+  }
+  
 }
 
-static void MX_FDCAN1_Init(void)
-{
-
-  /* USER CODE BEGIN FDCAN1_Init 0 */
-
-  /* USER CODE END FDCAN1_Init 0 */
-
-  /* USER CODE BEGIN FDCAN1_Init 1 */
-
-  /* USER CODE END FDCAN1_Init 1 */
-  hfdcan1.Instance = FDCAN1;
-  hfdcan1.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
-  hfdcan1.Init.Mode = FDCAN_MODE_NORMAL;
-  hfdcan1.Init.AutoRetransmission = ENABLE;
-  hfdcan1.Init.TransmitPause = ENABLE;
-  hfdcan1.Init.ProtocolException = ENABLE;
-  hfdcan1.Init.NominalPrescaler = 5;
-  hfdcan1.Init.NominalSyncJumpWidth = 8;
-  hfdcan1.Init.NominalTimeSeg1 = 0x1f;
-  hfdcan1.Init.NominalTimeSeg2 = 8;
-  hfdcan1.Init.DataPrescaler = 1;
-  hfdcan1.Init.DataSyncJumpWidth = 1;
-  hfdcan1.Init.DataTimeSeg1 = 1;
-  hfdcan1.Init.DataTimeSeg2 = 1;
-  hfdcan1.Init.MessageRAMOffset = 0;
-  hfdcan1.Init.StdFiltersNbr = 0;
-  hfdcan1.Init.ExtFiltersNbr = 0;
-  hfdcan1.Init.RxFifo0ElmtsNbr = 1;
-  hfdcan1.Init.RxFifo0ElmtSize = FDCAN_DATA_BYTES_8;
-  hfdcan1.Init.RxFifo1ElmtsNbr = 0;
-  hfdcan1.Init.RxFifo1ElmtSize = FDCAN_DATA_BYTES_8;
-  hfdcan1.Init.RxBuffersNbr = 0;
-  hfdcan1.Init.RxBufferSize = FDCAN_DATA_BYTES_8;
-  hfdcan1.Init.TxEventsNbr = 0;
-  hfdcan1.Init.TxBuffersNbr = 0;
-  hfdcan1.Init.TxFifoQueueElmtsNbr = 1;
-  hfdcan1.Init.TxFifoQueueMode = FDCAN_TX_FIFO_OPERATION;
-  hfdcan1.Init.TxElmtSize = FDCAN_DATA_BYTES_8;
-  if (HAL_FDCAN_Init(&hfdcan1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN FDCAN1_Init 2 */
-  sFilterConfig.IdType = FDCAN_STANDARD_ID;
-  sFilterConfig.FilterIndex = 0;
-  sFilterConfig.FilterID1 = 0x321;
-  sFilterConfig.FilterID2 = 0x7FF;
-  sFilterConfig.FilterType = FDCAN_FILTER_MASK;
-  sFilterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
-
-  if (HAL_FDCAN_ConfigFilter(&hfdcan1, &sFilterConfig) != HAL_OK)
-  {
-  Error_Handler();
-  }
-
-
-
-  if (  HAL_FDCAN_Start(&hfdcan1) != HAL_OK)
-  {
-  Error_Handler();
-  }
-
-
-
-  if(HAL_FDCAN_ActivateNotification(&hfdcan1, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0) != HAL_OK)
-  {
-  Error_Handler();
-  }
-
-  TxHeader.Identifier =  0x0F;
-  TxHeader.IdType = FDCAN_STANDARD_ID;
-  TxHeader.DataLength = FDCAN_DLC_BYTES_8;
-  TxHeader.TxFrameType = FDCAN_DATA_FRAME;
-  TxHeader.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
-  TxHeader.BitRateSwitch = FDCAN_BRS_OFF;
-  TxHeader.FDFormat = FDCAN_CLASSIC_CAN;
-  TxHeader.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
-  TxHeader.MessageMarker = 0;
-
-
-
-  TxHeader2.Identifier = 0xFF;
-  TxHeader2.IdType = FDCAN_STANDARD_ID;
-  TxHeader2.DataLength = FDCAN_DLC_BYTES_8;
-  TxHeader2.TxFrameType = FDCAN_DATA_FRAME;
-  TxHeader2.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
-  TxHeader2.BitRateSwitch = FDCAN_BRS_OFF;
-  TxHeader2.FDFormat = FDCAN_CLASSIC_CAN;
-  TxHeader2.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
-  TxHeader2.MessageMarker = 0;
-
-  /* USER CODE END FDCAN1_Init 2 */
-
+//TODO: Complete
+void ControllerCAN::getMotorInfo(uint8_t feedbackID, uint8_t motorId) {
+  // Decode message
+      RxHeader->StdId = FEEDBACK_ID + motorId;
 }
 
-#ifdef __cplusplus
-}
-#endif
+void ControllerCAN::setChannelFilter(){
 
-#endif 
+  //TODO: FIGURE OUT HOW THIS WORKS
+  // Use interrtuptions or no 
+//   HAL_CAN_ActivateNotification()
+
+//   // Filter messages and freq
+//   HAL_CAN_ConfigFilter();
+}
+

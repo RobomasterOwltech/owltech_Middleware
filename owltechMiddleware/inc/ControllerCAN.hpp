@@ -12,24 +12,28 @@
 #include "stm32f4xx_hal.h"
 
 // ===== Constants =====
-#define CAN_ID_1        1
-#define CAN_ID_2        2
-#define CAN_ID_3        3
-#define CAN_ID_4        4
-#define CAN_ID_5        5
-#define CAN_ID_6        6
-#define CAN_ID_7        7
-#define CAN_ID_8        8
+    //TODO: CHECK SYNTAX FOR WRITING VALUES
+#define CAN_ID_1        0x1U
+#define CAN_ID_2        0x2U
+#define CAN_ID_3        0x3U
+#define CAN_ID_4        0x4U
+#define CAN_ID_5        0x5U
+#define CAN_ID_6        0x6U
+#define CAN_ID_7        0x7U
+#define CAN_ID_8        0x8U
 
 // Read information from a given motor
     // The MSG is defined by
     // FEEDBACK_ID + MotorID
 #define FEEDBACK_ID         0x204
+#define FEEDBACK_ID_ALT     0x200
 
 // Sent control output to motors
-#define CONTROL_ID_1_TO_4   0x1FF
-#define CONTROL_ID_5_TO_7   0x2FF
+#define CONTROL_ID_A    0x1FF
+#define CONTROL_ID_B    0x2FF
+#define CONTROL_ID_C    0x200
 
+// Read motor status
 #define CONTROL_ANGLE_BEND  0x0
 #define CONTROL_ANGLE_LEND  0x1
 
@@ -58,19 +62,33 @@ typedef struct {
 class ControllerCAN {
 private:
 
-    CAN_HandleTypeDef   timer;
+    CAN_HandleTypeDef* hcan;
+
+    CAN_RxHeaderTypeDef* RxHeader;
+    CAN_TxHeaderTypeDef* TxHeader;
+
+    // Array buffer 8 bytes
+    uint8_t     RxData[RM_DLC];
+    uint8_t     TxData[RM_DLC];
+
     int id;
 
+    void updateMessage (uint8_t cntrlId, uint8_t motorId,  uint16_t value);
     void sendMessage ();
-    void readMessage ();
+    void readMessagePolling ();
+    void setChannelFilter();
 
 public:
-    ControllerCAN(CAN_HandleTypeDef handler, int ID);
+    ControllerCAN(CAN_HandleTypeDef* handler, int id);
 
+    // These are now present on the Motor class...
+    // I'm going to define them here, but we might need to 
+    // delete them from the other class
     void setTorque(int desTorque);
     void setPosition(int desPostion);
     void setVelocity(int desVelocity);
 
+    void getMotorInfo(uint8_t feedbackID, uint8_t motorId);
     void getMotorStatus();
 
     ~ControllerCAN();
