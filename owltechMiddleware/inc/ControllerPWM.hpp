@@ -17,7 +17,7 @@ class ControllerPWM {
     void set_prescaler();
 
    public:
-    ControllerPWM(TIM_HandleTypeDef* _timer, int minFreq, int maxFreq);
+    ControllerPWM(TIM_HandleTypeDef* _timer, int minPulse, int maxPulse, int desFreq);
     ~ControllerPWM();
 
     uint16_t get_frequency();
