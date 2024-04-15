@@ -283,3 +283,11 @@ clean:
 -include $(wildcard $(BUILD_DIR)/*.d)
 
 # *** EOF ***
+
+  
+#######################################
+# FLASH
+#######################################
+
+
+#jflash: $(BUILD_DIR)/$(TARGET).bin
