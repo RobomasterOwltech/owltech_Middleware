@@ -2,13 +2,14 @@
 
 class ControllerPWM {
    private:
+    TIM_HandleTypeDef* timer;
     uint16_t clock_frequency;
     uint16_t pwm_frequency;
     uint16_t duty_cycle;
     uint16_t prescaler;
-    TIM_HandleTypeDef* timer;
+    uint32_t ccr;  // Capture Compare Register
+    uint32_t arr;  // AutoReload Register
     uint32_t channel;
-
     // Signal variables
     int maximum_pulse;
     int minimum_pulse;
@@ -25,6 +26,8 @@ class ControllerPWM {
     uint16_t get_prescaler();
 
     void set_duty_cycle(uint16_t _duty_cycle);
+    void set_clock_frequency(uint32_t _prescaler);
+    void set_arr(uint32_t _arr);
 
     virtual void set_positon(int desiredPosition);
     virtual void set_velocity(int desiredVelocity);
