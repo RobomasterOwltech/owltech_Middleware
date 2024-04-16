@@ -12,10 +12,10 @@ ControllerPWM::ControllerPWM(TIM_HandleTypeDef* _timer, uint16_t _channel, uint1
 
 ControllerPWM::~ControllerPWM() {}
 
-uint16_t ControllerPWM::get_frequency() { return clock_frequency / timer->Init.AutoReloadPreload; }
-uint16_t ControllerPWM::get_duty_cycle() { return (arr / ccr) * 100; }
-uint16_t ControllerPWM::get_prescaler() { return timer->Init.Prescaler; }
-
+void ControllerPWM::set_clock_frequency(uint32_t _clock_frequency) {
+    prescaler = 1 / (timer->Init.Period * _clock_frequency);
+    timer->Init.Prescaler = prescaler;
+}
 void ControllerPWM::set_frequency(uint16_t pwm_frequency) {
     timer->Init.AutoReloadPreload = clock_frequency / pwm_frequency;
     arr = timer->Init.AutoReloadPreload;
@@ -38,11 +38,7 @@ void ControllerPWM::set_arr(uint32_t _arr) {
     arr = _arr;
     timer->Init.AutoReloadPreload = _arr;
 }
-
-void ControllerPWM::set_clock_frequency(uint32_t _prescaler) {
-    timer->Init.Prescaler = _prescaler - 1;
-    prescaler = _timer->Init.Prescaler;
-    clock_frequency = 1 / (_timer->Init.Period * _timer->Init.Prescaler);
-}
-
+uint16_t ControllerPWM::get_frequency() { return clock_frequency / timer->Init.AutoReloadPreload; }
+uint16_t ControllerPWM::get_duty_cycle() { return (arr / ccr) * 100; }
+uint16_t ControllerPWM::get_prescaler() { return timer->Init.Prescaler; }
 void ControllerPWM::calibrateSignal() {}
