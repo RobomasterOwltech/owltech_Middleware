@@ -10,19 +10,17 @@
 #include "ControllerCAN.hpp"
 #include "ControllerPWM.hpp"
 
-typedef enum {
-    POS,
-    VEL,
-    TOR
-} OperationModes;
+typedef enum { POS, VEL, TOR } OperationModes;
 
 typedef struct {
-        float maxVelocity;
-        float minVelocity;
-        float maxTorque;
-        float minTorque;
-        float maxPosition;
-        float minPosition;
+    float maxVelocity;
+    float minVelocity;
+    float maxTorque;
+    float minTorque;
+    float maxPosition;
+    float minPosition;
+    float maxTemp;
+    float minTemp;
 } OperationalRanges;
 
 typedef union {
@@ -31,19 +29,20 @@ typedef union {
 } Controller;
 
 class BaseMotor {
-private:
+   protected:
     Controller contr;
     OperationalRanges* attr;
-    
+
     uint8_t mode;
     uint8_t dir;
-    u_int16_t runFreq;
+    uint16_t runFreq;
 
     virtual void actuateVelocity();
     virtual void actuatePosition();
     virtual void actuateTorque();
-    
-public:
+
+   public:
+    BaseMotor();
     BaseMotor(ControllerCAN* controller, OperationalRanges* attr, OperationModes mode, uint8_t direction);
     BaseMotor(ControllerPWM* controller, OperationalRanges* attr, OperationModes mode, uint8_t direction);
     virtual float getFeedback();
@@ -57,9 +56,4 @@ public:
     ~BaseMotor();
 };
 
-
-
-
-
 #endif /* BaseMotor */
-
