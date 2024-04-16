@@ -29,9 +29,9 @@
 #define FEEDBACK_ID_ALT     0x200
 
 // Sent control output to motors
-#define CONTROL_ID_A    0x1FF
-#define CONTROL_ID_B    0x2FF
-#define CONTROL_ID_C    0x200
+#define CONTROL_ID_1FF    0x1FF
+#define CONTROL_ID_2FF    0x2FF
+#define CONTROL_ID_200    0x200
 
 // Read motor status
 #define CONTROL_ANGLE_BEND  0x0
@@ -50,15 +50,6 @@
 
 // ===== Structs for message =====
 
-typedef struct {
-    // CAN ID for the receiver node
-    uint16_t id;
-    // Sets the action to be perfomed by the CAN node
-    uint16_t function_code; 
-    // Actual data content
-    uint8_t TxData[RM_DLC];
-} CAN_MSG_STR;
-
 class ControllerCAN {
 private:
 
@@ -69,27 +60,21 @@ private:
 
     // Array buffer 8 bytes
     uint8_t     RxData[RM_DLC];
+    //TODO: Define weather this is going to be done
+    // I chose this function will be a static parameter of each motor
     uint8_t     TxData[RM_DLC];
 
-    int id;
-
-    void updateMessage (uint8_t cntrlId, uint8_t motorId,  uint16_t value);
-    void sendMessage ();
     void readMessagePolling ();
     void setChannelFilter();
 
 public:
-    ControllerCAN(CAN_HandleTypeDef* handler, int id);
+    ControllerCAN(CAN_HandleTypeDef* handler);
 
-    // These are now present on the Motor class...
-    // I'm going to define them here, but we might need to 
-    // delete them from the other class
-    void setTorque(int desTorque);
-    void setPosition(int desPostion);
-    void setVelocity(int desVelocity);
+    static void updateMessage(uint8_t* bufferArr, uint8_t motorId,  uint16_t value);
 
     void getMotorInfo(uint8_t feedbackID, uint8_t motorId);
     void getMotorStatus();
+    void sendMessage (CAN_TxHeaderTypeDef* TxHeader, uint8_t* TxData);
 
     ~ControllerCAN();
 };

@@ -1,0 +1,1 @@
+#define MAX_CHNNLS_IN_TIMER 0x04

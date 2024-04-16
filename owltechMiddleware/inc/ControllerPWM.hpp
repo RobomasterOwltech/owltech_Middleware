@@ -14,6 +14,9 @@
 
 // ===== Structs for message =====
 
+// ===== Constants =====
+#define MAX_CHNNLS_IN_TIMER 0x04
+
 
 class ControllerPWM {
 private:

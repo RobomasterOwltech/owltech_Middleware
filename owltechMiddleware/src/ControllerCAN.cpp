@@ -17,7 +17,7 @@ static void Error_Handler(void)
   }
 }
 
-ControllerCAN::ControllerCAN(CAN_HandleTypeDef* handler, int id){
+ControllerCAN::ControllerCAN(CAN_HandleTypeDef* handler){
   // Check there are no duplicate IDs
   hcan = handler;
   //Turn off interruption mode
@@ -32,28 +32,24 @@ ControllerCAN::ControllerCAN(CAN_HandleTypeDef* handler, int id){
   
 }
 
-void ControllerCAN::updateMessage(uint8_t cntrlId, uint8_t motorId,  uint16_t value){
+void ControllerCAN::updateMessage(uint8_t* bufferArr, uint8_t motorId,  uint16_t value){
+
+  // This should only be updated from the same type of motor. 
+  // Also, if the IDs are in the ranges 1-4 || 5-7
+    // TODO: limit the resource to comply 
+    // UPDT: That's why i'm passing as an argument the pointer to the buffer
+    // see if we can return it, instead of passing it as a reference.
 
   // Set postion to be written
   uint8_t writePos = motorId == CAN_ID_4 ? 6 : (motorId%4-1)*2;
 
-  // Define canId message to send
-    // Specifies the standard identifier
-  TxHeader->StdId = cntrlId;
-    // Specifies the type of identifier for the message
-  TxHeader->IDE = CAN_ID_STD;
-    // Specifies the length of the frame that will be transmitted
-  TxHeader->DLC = RM_DLC;
-    // Specifies the type of frame for the message
-  TxHeader->RTR = CAN_RTR_DATA;
-    // To avoid overriding the last values
-  TxHeader->TransmitGlobalTime = DISABLE;
-
-  TxData[writePos] = value;
+  bufferArr[writePos] = value;
 }
 
-void ControllerCAN::sendMessage(){
+void ControllerCAN::sendMessage(CAN_TxHeaderTypeDef* TxHeader, uint8_t* TxData){
   
+    // The example never actually sets a value to the mailbox
+    //if (HAL_CAN_AddTxMessage(&CanHandle, &TxHeader, TxData, &TxMailbox) != HAL_OK)
     // Prior to sending the message, we must 
     // check that all prev messages have been sent
     // we do so wit the tx boxes
@@ -73,6 +69,8 @@ void ControllerCAN::sendMessage(){
         Error_Handler();
       } 
     }   
+    // Timeout so that is has time to send the data
+    HAL_Delay(10);
 }
 
 /* This method is configured to read messages through polling.
@@ -82,6 +80,8 @@ On one side, this is easier, since will be using RTOS later
 */
 void ControllerCAN::readMessagePolling(){
   
+  // TODO: How to pass it to the motors?
+
   // Check there's a message on the fifo 
   if (HAL_CAN_GetRxFifoFillLevel(hcan, CAN_FILTER_FIFO0) > 1) {
 
@@ -91,7 +91,9 @@ void ControllerCAN::readMessagePolling(){
       Error_Handler();
     }
   }
-  
+    // Timeout so that is has time to read the data
+
+  HAL_Delay(10);  
 }
 
 //TODO: Complete

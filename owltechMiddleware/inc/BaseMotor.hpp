@@ -3,6 +3,8 @@
  *
  *  Created on: Apr 10, 2024
  *      Author: @JorgePerC
+ * This is based on the following:
+ * https://github.com/STMicroelectronics/STM32CubeF4/blob/master/Projects/STM324xG_EVAL/Examples/CAN/CAN_Networking/Src/main.c
  */
 #ifndef BaseMotor_HPP
 #define BaseMotor_HPP
@@ -28,6 +30,8 @@ typedef union {
     ControllerPWM* pwm;
 } Controller;
 
+//TODO: Create a new union for selecting the ID
+// bc it can be a channel, or for can
 class BaseMotor {
    protected:
     Controller contr;
