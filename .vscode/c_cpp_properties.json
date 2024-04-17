@@ -66,6 +66,20 @@
             "intelliSenseMode": "gcc-arm",
             "cStandard": "c99",
             "cppStandard": "c++17"
+        },
+        {
+            "name": "Windows",
+            "includePath": [
+                "${owlPath}",
+                "${workspaceRoot}"
+            ],
+            "defines": [
+                "${owlDefines}"
+            ],
+            "compilerPath": "/usr/local/bin/gcc-arm-none-eabi/arm-none-eabi-g++",
+            "intelliSenseMode": "gcc-arm",
+            "cStandard": "c99",
+            "cppStandard": "c++17"
         }
     ],
     "version": 4,
