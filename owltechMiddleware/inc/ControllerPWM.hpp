@@ -3,6 +3,7 @@
 class ControllerPWM {
    private:
     TIM_HandleTypeDef* timer;
+    uint16_t timer_frequency;
     uint16_t clock_frequency;
     uint16_t pwm_frequency;
     uint16_t duty_cycle;

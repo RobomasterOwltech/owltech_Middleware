@@ -13,12 +13,15 @@ ControllerPWM::ControllerPWM(TIM_HandleTypeDef* _timer, uint16_t _channel, uint1
 ControllerPWM::~ControllerPWM() {}
 
 void ControllerPWM::set_clock_frequency(uint32_t _clock_frequency) {
-    prescaler = 1 / (timer->Init.Period * _clock_frequency);
+    timer_frequency = 1 / timer->Init.Period;
+    prescaler = timer_frequency / _clock_frequency;
     timer->Init.Prescaler = prescaler;
+    // TO DO:
+    // Buscar clock source frequency
 }
 void ControllerPWM::set_frequency(uint16_t pwm_frequency) {
-    timer->Init.AutoReloadPreload = clock_frequency / pwm_frequency;
-    arr = timer->Init.AutoReloadPreload;
+    arr = clock_frequency / pwm_frequency;
+    timer->Init.AutoReloadPreload = arr;
 }
 void ControllerPWM::set_duty_cycle(uint16_t _duty_cycle) { ccr = (int)(_duty_cycle * arr) / 100; }
 
