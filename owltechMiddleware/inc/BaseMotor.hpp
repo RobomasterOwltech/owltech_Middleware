@@ -48,8 +48,8 @@ class BaseMotor {
     virtual float getFeedback();
     void actuate();
     // The input value is an angular velocity
-    virtual void setReference(float w);
-    virtual void setControlType(OperationModes mode);
+    virtual void setReference(float w){};
+    virtual void setControlType(OperationModes mode){};
     void invert();
     void stop();
 

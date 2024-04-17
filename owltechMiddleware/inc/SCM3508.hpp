@@ -9,12 +9,17 @@ using namespace std;
 class SpeedControllerPWM : BaseMotor {
    public:
     SpeedControllerPWM(TIM_HandleTypeDef timer, OperationModes mode, uint8_t motorId);
-    ~SpeedControllerPWM();
+    //~SpeedControllerPWM();
 
     void setSpeed(float);
-    float SpeedControllerPWM::calculateSpeed();
+    virtual float actuateVelocity(uint16_t, float);
+
+    virtual void setReference(float w) override;
+    virtual void setControlType(OperationModes) override;
 
    private:
+    float Speed;
+
     float frecuenciaMax = 500;
     float frecuenciaMin = 50;
     float voltage = 24;
