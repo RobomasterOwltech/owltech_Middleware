@@ -22,14 +22,14 @@ class Motor_2305 : BaseMotor {
     // Resolution for position control:
     static const uint8_t maxAngle = NAN;
     // Resolution for velocity control:
-    static const int16_t maxVoltage = 24;
-    static const int16_t minVoltage = -24;
+    static const int16_t maxVoltage = 17.44;
+    static const int16_t minVoltage = -17.44;
     // Resolution for torque control:
-    static const float maxCurrent = NAN;
+    static const float maxCurrent = 30;
     static const float minCurrent = 0.4;
     // Operational temperature (Celsius):
-    static const int16_t maxTemp = NAN;
-    static const int16_t minTemp = NAN;
+    static const int16_t maxTemp = 40;
+    static const int16_t minTemp = -10;
 
     static const uint8_t cntrlId = CONTROL_ID_A;
 
