@@ -1,6 +1,6 @@
 #include "ControllerPWM.hpp"
 
-ControllerPWM::ControllerPWM(TIM_HandleTypeDef* _timer, uint16_t _channel, uint16_t _prescaler) {
+ControllerPWM::ControllerPWM(TIM_HandleTypeDef* _timer, uint16_t _channel) {
     timer = _timer;
     channel = _channel;
 

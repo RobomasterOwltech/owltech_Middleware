@@ -16,7 +16,7 @@ class ControllerPWM {
     int minimum_pulse;
 
    public:
-    ControllerPWM(TIM_HandleTypeDef* _timer, int minPulse, int maxPulse, int desFreq);
+    ControllerPWM(TIM_HandleTypeDef* _timer, uint16_t _channel);
     ~ControllerPWM();
 
     uint16_t get_frequency();
