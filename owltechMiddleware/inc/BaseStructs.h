@@ -43,12 +43,6 @@ typedef struct {
 } PWM_MSG_STR;
 
 typedef struct {
-    CAN_MSG_STR msg;
-    bool direction;
-    uint16_t actual_status_sign;
-} MOTOR_STR;
-
-typedef struct {
     uint16_t resolution;
     TIM_HandleTypeDef timer;
     // TODO: Do we really need these?
