@@ -3,9 +3,6 @@
  *
  *  Created on: April 12, 2024
  *      Author: @JorgePerC
- * 
- * For mor information about how to use this driver: 
- * um2217-description-of-stm32h7-hal-and-lowlayer-drivers-stmicroelectronics-1
  */
 
 #ifndef ControllerCAN_HPP
@@ -53,13 +50,8 @@
 
 // ===== Structs for message =====
 
-class ControllerFDCAN {
+class ControllerCAN {
 private:
-
-HAL_FDCAN_IsRxBufferMessageAvailable
-HAL_FDCAN_IsTxBufferMessagePending
-HAL_FDCAN_GetRxFifoFillLevel
-HAL_FDCAN_GetTxFifoFreeLevel
 
     CAN_HandleTypeDef* hcan;
 
@@ -76,13 +68,13 @@ HAL_FDCAN_GetTxFifoFreeLevel
     void setChannelFilter();
 
 public:
-    ControllerCAN(FDCAN_HandleTypeDef* handler);
+    ControllerCAN(CAN_HandleTypeDef* handler);
 
     static void updateMessage(uint8_t* bufferArr, uint8_t motorId,  uint16_t value);
 
     void getMotorInfo(uint8_t feedbackID, uint8_t motorId);
     void getMotorStatus();
-    void sendMessage (FDCAN_TxHeaderTypeDef* TxHeader, uint8_t* TxData);
+    void sendMessage (CAN_TxHeaderTypeDef* TxHeader, uint8_t* TxData);
 
     ~ControllerCAN();
 };
